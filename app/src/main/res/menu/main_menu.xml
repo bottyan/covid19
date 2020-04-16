@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/mi_report"
+        android:title="@string/mi_report" />
+    <item
+        android:id="@+id/mi_delete_all"
+        android:title="@string/mi_delete_all" />
+    <item
+        android:id="@+id/mi_log_out"
+        android:enabled="true"
+        android:title="@string/mi_logout"
+        android:visible="true" />
+    <item
+        android:id="@+id/mi_log_in"
+        android:title="@string/mi_login" />
+</menu>

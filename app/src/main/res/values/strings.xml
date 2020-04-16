@@ -1,0 +1,114 @@
+<resources>
+    <string name="app_name">COVID-19 Risk Tracker</string>
+    <string name="title_activity_main2">Main2Activity</string>
+    <!-- Strings used for fragments for navigation -->
+    <string name="first_fragment_label">First Fragment</string>
+    <string name="second_fragment_label">Second Fragment</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+
+    <string name="main_status_0">You are OK</string>
+    <string name="main_status_expl_0">
+        We don\'t know about any event which would increase your infection probability above average level.
+    </string>
+
+    <string name="main_status_1">Warning</string>
+    <string name="main_status_expl_1">
+        For a short time frame we identified people in your environment how are infected by the virus or have high probability of being infected.
+        It\'s recommended for you to keep distance from others for a week to stop spreading of the virus.
+    </string>
+
+    <string name="main_status_2">High risk</string>
+    <string name="main_status_expl_2">
+        Somebody get infected who we detected in your environment for a longer time period or multiple times.
+        It\'s recommended for you to keep distance from others for two weeks to stop spreading of the virus.
+    </string>
+
+    <string name="main_status_3">Infected</string>
+    <string name="main_status_expl_3">
+        You reported infection, report being healthy if you already recovered or the previous report
+        was accidental.
+    </string>
+    <string name="main_status_not_infected_3">I\'m recovered</string>
+
+    <string name="welcome_text_uuid">This is your unique id, which is used to identify you in our database. Keep it safe. There is no way to restore it, so keep it safe if you may want to recover your account later.</string>
+    <string name="welcome_button_recover">Recover old ID</string>
+    <string name="text_password_label">Enter your new password</string>
+    <string name="text_password_explanation">Explain why password is needed, and that it can no be recovered...</string>
+    <string name="welcome_button_accept">Accept and Start</string>
+    <string name="welcome_text_reenter_pswd">Reenter the password</string>
+    <string name="welcome_title">COVID19 Safety Tracker</string>
+    <string name="welcome_subtitle">create an account to fight the virus</string>
+
+    <string name="login_title">COVID19 Safety Tracker</string>
+    <string name="login_subtitle">log in to your account</string>
+    <string name="login_login">Log in</string>
+    <string name="login_password_label">Enter your password</string>
+
+    <string name="mi_logout">Log out</string>
+    <string name="mi_login">Log in</string>
+    <string name="mi_delete_all">Delete all data</string>
+    <string name="mi_report">Report infection</string>
+
+    <string name="report_title">COVID19 Safety Tracker</string>
+    <string name="report_subtitle">send report</string>
+    <string name="report_explanation">
+        Send report if you are sure or that there is a very high probability that you are infected.
+        Do it with care because your connections might be alerted and asked for self quarantine to
+        prevent further spread of the infection.
+    </string>
+    <string name="report_btn_infected_1">Report infection proven by test</string>
+    <string name="report_btn_infected_2">Report infection based on self diagnose</string>
+    <string name="report_btn_cancel">Cancel</string>
+
+    <string name="welcome_explanation_html">
+        &lt;h1&gt;What is this app?&lt;/h1&gt;
+        &lt;p&gt;Explanation here&lt;/p&gt;
+        &lt;h1&gt;Privacy concerns&lt;/h1&gt;
+        &lt;p&gt;Explanation here&lt;/p&gt;
+        &lt;h1&gt;How accurate is the prediction and how to interpret it?&lt;/h1&gt;
+        &lt;p&gt;Explanation here&lt;/p&gt;
+    </string>
+    <string name="main_title">COVID19 Safety Tracker</string>
+    <string name="title_activity_login">Sign in</string>
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password</string>
+    <string name="action_sign_in">Sign in or register</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="welcome">"Welcome !"</string>
+    <string name="invalid_username">Not a valid username</string>
+    <string name="invalid_password">Password must be >5 characters</string>
+    <string name="login_failed">"Login failed"</string>
+    <string name="welcome_notification_two_pswd_dif">The two password is different, please enter the same password twice.</string>
+    <string name="welcome_error">Error occured, please try it again.</string>
+    <string name="main_confirm_dialog_title">Delete your account forever</string>
+    <string name="main_confirm_dialog_text">Do you really want to delete your account? Your data will be deleted forever and can not be recovered.</string>
+    <string name="login_error">Failed to login. Try again.</string>
+    <string name="login_no_account_found">No account key found, create a new account first.</string>
+
+    <string name="report_s_description">
+        When you are pretty sure that you have COVID-19 disease, but there is no chance to be tested,
+        you can report it here. Please be aware that your report might triggers warning for others you met
+        in the last two weeks.
+    </string>
+    <string name="report_s_symptoms">Your symptoms</string>
+    <string name="report_s_symptom1">Fever</string>
+    <string name="report_s_symptom2">Dry cough</string>
+    <string name="report_s_symptom3">Fatigue</string>
+    <string name="report_s_symptom4">Sputum production</string>
+    <string name="report_s_symptom5">Loss of smell</string>
+    <string name="report_s_symptom6">Shortness of breath</string>
+    <string name="report_s_symptom7">Muscle or joint pain</string>
+    <string name="report_s_symptom8">Sore throat</string>
+    <string name="report_s_submit">I\'m sure I\'m infected, submit</string>
+    <string name="report_s_title">COVID 19 Safety Tracker</string>
+    <string name="report_s_subtitle">Self diagnose</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="report_s_reported">Infection reported.</string>
+    <string name="report_s_submit_failed">Something failed, pleas try again later.</string>
+    <string name="main_status_failed">Failed to load status.</string>
+    <string name="recovery_reported">Recovery reported.</string>
+    <string name="noti_contact_tracing_on">Contact tracing on</string>
+</resources>
