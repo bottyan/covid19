@@ -26,6 +26,12 @@ public class MySQLiteDBHelper extends SQLiteOpenHelper {
     public static final String MYREPORTS_COLUMN_STATUS = "status";
     public static final String MYREPORTS_COLUMN_DATA = "data";
 
+    public static final String ALERTS_TABLE_NAME = "alerts";
+    public static final String ALERTS_COLUMN_ID = "id";
+    public static final String ALERTS_COLUMN_ALERT_ID = "alert_id";
+    public static final String ALERTS_COLUMN_DATA = "data";
+    public static final String ALERTS_COLUMN_TIMESTAMP = "timestamp";
+
     public MySQLiteDBHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
@@ -51,6 +57,13 @@ public class MySQLiteDBHelper extends SQLiteOpenHelper {
                 MYREPORTS_COLUMN_DATA + " TEXT, " +
                 MYREPORTS_COLUMN_TIMESTAMP + " BIGINT " +
                 ")");
+
+        sqLiteDatabase.execSQL("CREATE TABLE " + ALERTS_TABLE_NAME + " (" +
+                ALERTS_COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                ALERTS_COLUMN_ALERT_ID + " TEXT, " +
+                ALERTS_COLUMN_DATA + " TEXT, " +
+                ALERTS_COLUMN_TIMESTAMP + " BIGINT " +
+                ")");
     }
 
     @Override
@@ -63,6 +76,7 @@ public class MySQLiteDBHelper extends SQLiteOpenHelper {
                 sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + OTHERS_TABLE_NAME);
                 sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + MYREPORTS_TABLE_NAME);
                 sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + MYIDS_TABLE_NAME);
+                sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + ALERTS_TABLE_NAME);
                 onCreate(sqLiteDatabase);
             }
         }

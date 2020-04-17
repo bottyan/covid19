@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "108159061723",
+    "firebase_url": "https://covid-19-2a4e3.firebaseio.com",
+    "project_id": "covid-19-2a4e3",
+    "storage_bucket": "covid-19-2a4e3.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:108159061723:android:76ef9d059d5f7b346886fe",
+        "android_client_info": {
+          "package_name": "com.dialogity.covid_19risktracker"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "108159061723-qmkq88k5qrhn49hem673a8skm6cm3hpt.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyArBG3-Z7P0VDRsCe2miXoJjnICUB0OQ9M"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "108159061723-qmkq88k5qrhn49hem673a8skm6cm3hpt.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
