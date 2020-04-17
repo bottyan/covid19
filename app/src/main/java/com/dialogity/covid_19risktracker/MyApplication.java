@@ -20,6 +20,7 @@ import org.altbeacon.beacon.BeaconParser;
 import org.altbeacon.beacon.BeaconTransmitter;
 import org.altbeacon.beacon.RangeNotifier;
 import org.altbeacon.beacon.Region;
+import org.altbeacon.beacon.powersave.BackgroundPowerSaver;
 import org.altbeacon.beacon.startup.BootstrapNotifier;
 import org.altbeacon.beacon.startup.RegionBootstrap;
 
@@ -34,7 +35,7 @@ public class MyApplication extends Application implements BootstrapNotifier, Ran
 
     private static final String TAG = MyApplication.class.getSimpleName();
     private RegionBootstrap regionBootstrap;
-    // private BackgroundPowerSaver backgroundPowerSaver; // TODO: check if necessary
+    private BackgroundPowerSaver backgroundPowerSaver; // TODO: check if necessary
 
     @Override
     public void onCreate() {
@@ -49,7 +50,7 @@ public class MyApplication extends Application implements BootstrapNotifier, Ran
 
     public void startBluetooth(String uuid) {
         Log.d(TAG, "App started up");
-        // backgroundPowerSaver = new BackgroundPowerSaver(this); // TODO: check if necessary
+        backgroundPowerSaver = new BackgroundPowerSaver(this); // TODO: check if necessary
         BeaconManager beaconManager = BeaconManager.getInstanceForApplication(this);
 
         // The following code block sets up the foreground service
@@ -114,9 +115,7 @@ public class MyApplication extends Application implements BootstrapNotifier, Ran
                 .build();
 
         // Change the layout below for other beacon types
-        BeaconParser beaconParser = new BeaconParser()
-                //.setBeaconLayout("m:2-3=beac,i:4-19,i:20-21,i:22-23,p:24-24,d:25-25");
-                .setBeaconLayout("m:2-3=0215,i:4-19,i:20-21,i:22-23,p:24-24");
+        BeaconParser beaconParser = new BeaconParser().setBeaconLayout("m:2-3=0215,i:4-19,i:20-21,i:22-23,p:24-24");
         BeaconTransmitter beaconTransmitter = new BeaconTransmitter(getApplicationContext(), beaconParser);
         beaconTransmitter.startAdvertising(beacon, new AdvertiseCallback() {
             @Override
