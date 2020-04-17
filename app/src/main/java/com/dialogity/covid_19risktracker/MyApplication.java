@@ -30,7 +30,6 @@ import java.util.Collection;
 public class MyApplication extends Application implements BootstrapNotifier, RangeNotifier {
 
     public static final String MY_UUID_KEY = "my_uuid";
-    public static final String MY_TOKEN_KEY = "my_token";
     public static final String MY_PREF_NAME = "my_preferences";
 
     private static final String TAG = MyApplication.class.getSimpleName();
@@ -40,12 +39,8 @@ public class MyApplication extends Application implements BootstrapNotifier, Ran
     @Override
     public void onCreate() {
         super.onCreate();
-        SharedPreferences sharedPreferences = getSharedPreferences(MyApplication.MY_PREF_NAME, MODE_PRIVATE);
-        if (sharedPreferences.contains(MyApplication.MY_UUID_KEY)) {
-            // TODO: handle logout / login
-            String uuid = sharedPreferences.getString(MyApplication.MY_UUID_KEY, null);
-            startBluetooth(uuid);
-        }
+        String uuid = DataAccess.get(this).getMyUUID();
+        startBluetooth(uuid);
     }
 
     public void startBluetooth(String uuid) {
@@ -65,9 +60,9 @@ public class MyApplication extends Application implements BootstrapNotifier, Ran
         );
         builder.setContentIntent(pendingIntent);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            NotificationChannel channel = new NotificationChannel("My Notification Channel ID",
-                    "My Notification Name", NotificationManager.IMPORTANCE_DEFAULT);
-            channel.setDescription("My Notification Channel Description");
+            NotificationChannel channel = new NotificationChannel(getString(R.string.default_notification_channel_id),
+                    getString(R.string.default_notification_channel_name), NotificationManager.IMPORTANCE_DEFAULT);
+            channel.setDescription(getString(R.string.default_notification_channel_description));
             NotificationManager notificationManager = (NotificationManager) getSystemService(
                     Context.NOTIFICATION_SERVICE);
             notificationManager.createNotificationChannel(channel);
@@ -171,10 +166,11 @@ public class MyApplication extends Application implements BootstrapNotifier, Ran
 
     @Override
     public void didRangeBeaconsInRegion(Collection<Beacon> beacons, Region region) {
-        if (beacons.size() > 0) {
-            Beacon b = beacons.iterator().next();
-            Log.i(TAG, "The first beacon I see is about "+b.getDistance()+" meters away.");
-            Log.i(TAG, b.toString());
+        for (Beacon beacon : beacons) {
+            Log.i(TAG, "The first beacon I see is about "+beacon.getDistance()+" meters away.");
+            //Log.i(TAG, b.toString());
+            String other_id = beacon.getId1().toString();
+            DataAccess.get(this).addTracking(other_id);
         }
     }
 }

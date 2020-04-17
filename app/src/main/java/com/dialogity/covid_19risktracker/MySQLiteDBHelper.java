@@ -11,7 +11,6 @@ public class MySQLiteDBHelper extends SQLiteOpenHelper {
 
     public static final String OTHERS_TABLE_NAME = "others_detected";
     public static final String OTHERS_COLUMN_ID = "id";
-    public static final String OTHERS_COLUMN_MY_ID = "my_id";
     public static final String OTHERS_COLUMN_OTHER_ID = "other_id";
     public static final String OTHERS_COLUMN_TIMESTAMP = "timestamp";
 
@@ -40,10 +39,11 @@ public class MySQLiteDBHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
         sqLiteDatabase.execSQL("CREATE TABLE " + OTHERS_TABLE_NAME + " (" +
                 OTHERS_COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                OTHERS_COLUMN_MY_ID + " TEXT, " +
                 OTHERS_COLUMN_OTHER_ID + " TEXT, " +
                 OTHERS_COLUMN_TIMESTAMP + " BIGINT " +
                 ")");
+        sqLiteDatabase.execSQL("CREATE INDEX index01 ON " + OTHERS_TABLE_NAME +
+                "(" + OTHERS_COLUMN_OTHER_ID + ", " + OTHERS_COLUMN_TIMESTAMP + ")");
 
         sqLiteDatabase.execSQL("CREATE TABLE " + MYIDS_TABLE_NAME + " (" +
                 MYIDS_COLUMN_MY_ID + " TEXT PRIMARY KEY, " +
@@ -77,9 +77,11 @@ public class MySQLiteDBHelper extends SQLiteOpenHelper {
                 sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + MYREPORTS_TABLE_NAME);
                 sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + MYIDS_TABLE_NAME);
                 sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + ALERTS_TABLE_NAME);
+                sqLiteDatabase.execSQL("DROP INDEX IF EXISTS index01");
                 onCreate(sqLiteDatabase);
             }
         }
         // TODO: implement later upgrades
     }
+
 }

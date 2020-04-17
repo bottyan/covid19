@@ -14,10 +14,16 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.firebase.messaging.FirebaseMessaging;
+import com.google.firebase.messaging.RemoteMessage;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class ReportInfectionSelfDiagnoseActivity extends AppCompatActivity {
 
@@ -37,6 +43,7 @@ public class ReportInfectionSelfDiagnoseActivity extends AppCompatActivity {
     }
 
     public void submit(View view) {
+        RequestQueue mRequestQue = Volley.newRequestQueue(this);
         boolean s1 = ((CheckBox)findViewById(R.id.checkBox1)).isChecked();
         boolean s2 = ((CheckBox)findViewById(R.id.checkBox2)).isChecked();
         boolean s3 = ((CheckBox)findViewById(R.id.checkBox3)).isChecked();
@@ -46,6 +53,7 @@ public class ReportInfectionSelfDiagnoseActivity extends AppCompatActivity {
         boolean s7 = ((CheckBox)findViewById(R.id.checkBox7)).isChecked();
         boolean s8 = ((CheckBox)findViewById(R.id.checkBox8)).isChecked();
         try {
+            JSONObject json = new JSONObject();
             JSONObject body = new JSONObject();
             JSONObject data = new JSONObject();
             body.put("data", data);
@@ -58,36 +66,44 @@ public class ReportInfectionSelfDiagnoseActivity extends AppCompatActivity {
             data.put("s7", s7);
             data.put("s8", s8);
 
-            SharedPreferences sharedPreferences = getSharedPreferences(MyApplication.MY_PREF_NAME, MODE_PRIVATE);
-            if (sharedPreferences.contains(MyApplication.MY_UUID_KEY)
-                && sharedPreferences.contains(MyApplication.MY_TOKEN_KEY)) {
-                body.put("token", sharedPreferences.getString(MyApplication.MY_TOKEN_KEY, null));
-                body.put("uuid", sharedPreferences.getString(MyApplication.MY_UUID_KEY, null));
-            }
+            String[] allOtherTokens = new String[] {"token1", "token2"};
 
-            RequestQueue queue = Volley.newRequestQueue(this);
-            String url = "https://covid19api.dialogity.com/apiV1/report/";
+            json.put("to", "/topics/" + MyFirebaseMessagingService.TOPIC_NAME);
+            JSONObject notificationObj = new JSONObject();
+            notificationObj.put("title", "REPORT");
+            notificationObj.put("body", allOtherTokens);
+            //replace notification with data when went send data
+            json.put("notification", notificationObj);
+            // TODO: check from here https://firebase.google.com/docs/cloud-messaging/android/topic-messaging?authuser=0#rest
 
-            MyRequest request = new MyRequest(Request.Method.POST, url,
-                    new Response.Listener<String>() {
+            String URL = "https://fcm.googleapis.com/fcm/send";
+            JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, URL,
+                    json,
+                    new Response.Listener<JSONObject>() {
                         @Override
-                        public void onResponse(String response) {
-                            Log.w(TAG, "Response is: " + response);
-                            // TODO: proper error handling
-                            Toast.makeText(ReportInfectionSelfDiagnoseActivity.this, R.string.report_s_reported, Toast.LENGTH_LONG).show();
-                            ReportInfectionSelfDiagnoseActivity.this.finish();
+                        public void onResponse(JSONObject response) {
+                            Log.e(TAG, response.toString());
                         }
-                    },
-                    new Response.ErrorListener() {
+                    }, new Response.ErrorListener() {
                         @Override
                         public void onErrorResponse(VolleyError error) {
-                            Log.w(TAG, "Error");
-                            Toast.makeText(ReportInfectionSelfDiagnoseActivity.this, R.string.report_s_submit_failed, Toast.LENGTH_LONG).show();
+                            Log.e(TAG, error.toString());
                         }
                     }
-            );
-            request.setBodyData(body);
-            queue.add(request);
+            ) {
+                @Override
+                public Map<String, String> getHeaders() {
+                    Map<String, String> header = new HashMap<>();
+                    header.put("content-type", "application/json");
+                    header.put("authorization", "key=" + getString(R.string.fcm_api_key));
+                    return header;
+                }
+            };
+
+            mRequestQue.add(request);
+
+            // TODO: save alert to the DB
+
         } catch (JSONException e) {
             // never should happen
         }

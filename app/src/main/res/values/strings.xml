@@ -111,4 +111,13 @@
     <string name="main_status_failed">Failed to load status.</string>
     <string name="recovery_reported">Recovery reported.</string>
     <string name="noti_contact_tracing_on">Contact tracing on</string>
+
+    <string name="default_notification_channel_id">COVID-19_notification_channel</string>
+    <string name="default_notification_channel_name">COVID-19 Notifications</string>
+    <string name="default_notification_channel_description">Notifications from the COVID-19 contact tracing app.</string>
+    <string name="default_notification_title">COVID-19 tracing alert</string>
+
+    <string name="fcm_topic_sub_success">Subscribed to COVID-19 alerts.</string>
+    <string name="fcm_topic_sub_failed">Subscription to COVID-19 alerts failed, we will try again later.</string>
+    <string name="fcm_api_key">AIzaSyArBG3-Z7P0VDRsCe2miXoJjnICUB0OQ9M</string>
 </resources>

@@ -16,6 +16,7 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -77,63 +78,27 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void loadStatus() {
-        RequestQueue queue = Volley.newRequestQueue(this);
-        String url = "https://covid19api.dialogity.com/apiV1/status/";
-
-        MyRequest request = new MyRequest(Request.Method.POST, url,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        Log.w(TAG, "Response is: " + response);
-                        if (response.contains("ok")) {
-                            updateStatusView(0);
-                        } else if (response.contains("infected")) {
-                            updateStatusView(3);
-                        } else if (response.contains("recovered")) {
-                            updateStatusView(0);
-                        } else if (response.contains("warning")) {
-                            updateStatusView(1);
-                        } else if (response.contains("danger")) {
-                            updateStatusView(2);
-                        }
-                        // TODO: implement proper status selection
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Log.w(TAG, "Error");
-                        Toast.makeText(MainActivity.this, R.string.main_status_failed, Toast.LENGTH_LONG).show();
-                    }
-                }
-        );
-
-        SharedPreferences sharedPreferences = getSharedPreferences(MyApplication.MY_PREF_NAME, MODE_PRIVATE);
-        if (sharedPreferences.contains(MyApplication.MY_UUID_KEY)
-                && sharedPreferences.contains(MyApplication.MY_TOKEN_KEY)) {
-            request.addBodyData("token", sharedPreferences.getString(MyApplication.MY_TOKEN_KEY, null));
-            request.addBodyData("uuid", sharedPreferences.getString(MyApplication.MY_UUID_KEY, null));
-        }
-        queue.add(request);
+        DataAccess.Status status = DataAccess.get(this).getMyStatus();
+        updateStatusView(status.status_code);
     }
 
     private void updateStatusView(int status) {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         Fragment fragment = null;
-        if (status == 1) {
+        if (status == DataAccess.Status.CODE_WARNING) {
             currentFragmenName = "warning";
             Log.w(TAG, "Loading fragment WARNING");
             fragment = new StatusWarningFragment();
-        } else if (status == 0) {
+        } else if (status == DataAccess.Status.CODE_OK) {
             currentFragmenName = "OK";
             Log.w(TAG, "Loading fragment OK");
             fragment = new StatusOkFragment();
-        } else if (status == 2) {
+        } else if (status == DataAccess.Status.CODE_DANGER) {
             currentFragmenName = "danger";
             Log.w(TAG, "Loading fragment DANGER");
             fragment = new StatusDangerFragment();
-        } else if (status == 3) {
+        } else if (status == DataAccess.Status.CODE_INFECTED) {
             currentFragmenName = "infected";
             Log.w(TAG, "Loading fragment INFECTED");
             fragment = new StatusInfectedFragment();
@@ -153,21 +118,7 @@ public class MainActivity extends AppCompatActivity {
     private void checkState() {
         SharedPreferences sharedPreferences = getSharedPreferences(MyApplication.MY_PREF_NAME, MODE_PRIVATE);
         if (sharedPreferences.contains(MyApplication.MY_UUID_KEY)) {
-            if (sharedPreferences.contains(MyApplication.MY_TOKEN_KEY)) {
-                if (menu != null) {
-                    menu.findItem(R.id.mi_log_out).setVisible(true);
-                    menu.findItem(R.id.mi_log_in).setVisible(false);
-                    this.invalidateOptionsMenu();
-                }
-                // TODO: render main screen
-            } else {
-                startActivityForResult(new Intent(this, LoginActivity.class), 111);
-                if (menu != null) {
-                    menu.findItem(R.id.mi_log_out).setVisible(false);
-                    menu.findItem(R.id.mi_log_in).setVisible(true);
-                    this.invalidateOptionsMenu();
-                }
-            }
+
         } else {
             startActivityForResult(new Intent(this, WelcomeActivity.class), 111);
         }
@@ -284,16 +235,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void logout() {
-        // TODO: stop tracking
-        SharedPreferences sharedPreferences = getSharedPreferences(MyApplication.MY_PREF_NAME, MODE_PRIVATE);
-        if (sharedPreferences.contains(MyApplication.MY_TOKEN_KEY)) {
-            SharedPreferences.Editor editor = sharedPreferences.edit();
-            editor.remove(MyApplication.MY_TOKEN_KEY);
-            editor.commit();
-        }
-        startActivityForResult(new Intent(this, LoginActivity.class), 111);
-    }
+
 
     private void deleteAll() {
         // TODO: get approval
@@ -311,7 +253,7 @@ public class MainActivity extends AppCompatActivity {
                 .setNegativeButton(android.R.string.no, null).show();
     }
     private void deleteAllFinalize() {
-        // TODO: implement server side delete
+        DataAccess.get(this).resetAll();
         SharedPreferences sharedPreferences = getSharedPreferences(MyApplication.MY_PREF_NAME, MODE_PRIVATE);
         if (sharedPreferences.contains(MyApplication.MY_UUID_KEY)) {
             SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -328,12 +270,6 @@ public class MainActivity extends AppCompatActivity {
             case R.id.mi_report:
                 startActivityForResult(new Intent(this, ReportActivity.class), 111);
                 return true;
-            case R.id.mi_log_in:
-                startActivityForResult(new Intent(this, LoginActivity.class), 111);
-                return true;
-            case R.id.mi_log_out:
-                this.logout();
-                return true;
             case R.id.mi_delete_all:
                 this.deleteAll();
                 return true;
@@ -346,74 +282,19 @@ public class MainActivity extends AppCompatActivity {
         this.menu = menu;
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main_menu, menu);
-
-        refreshMenu();
-
         return true;
     }
 
-    private void refreshMenu() {
-        if (menu != null) {
-            SharedPreferences sharedPreferences = getSharedPreferences(MyApplication.MY_PREF_NAME, MODE_PRIVATE);
-            if (sharedPreferences.contains(MyApplication.MY_TOKEN_KEY)) {
-                menu.findItem(R.id.mi_log_out).setVisible(true);
-                menu.findItem(R.id.mi_log_in).setVisible(false);
-            } else {
-                menu.findItem(R.id.mi_log_out).setVisible(false);
-                menu.findItem(R.id.mi_log_in).setVisible(true);
-            }
-        }
-    }
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         // handle go back
         super.onActivityResult(requestCode, resultCode, data);
-        this.refreshMenu();
         this.checkState();
-
     }
 
     public void unreport(View view) {
-        try {
-            JSONObject body = new JSONObject();
-            JSONObject data = new JSONObject();
-            body.put("data", data);
-            data.put("recovered", true);
-
-            SharedPreferences sharedPreferences = getSharedPreferences(MyApplication.MY_PREF_NAME, MODE_PRIVATE);
-            if (sharedPreferences.contains(MyApplication.MY_UUID_KEY)
-                    && sharedPreferences.contains(MyApplication.MY_TOKEN_KEY)) {
-                body.put("token", sharedPreferences.getString(MyApplication.MY_TOKEN_KEY, null));
-                body.put("uuid", sharedPreferences.getString(MyApplication.MY_UUID_KEY, null));
-            }
-
-            RequestQueue queue = Volley.newRequestQueue(this);
-            String url = "https://covid19api.dialogity.com/apiV1/report/";
-
-            MyRequest request = new MyRequest(Request.Method.POST, url,
-                    new Response.Listener<String>() {
-                        @Override
-                        public void onResponse(String response) {
-                            Log.w(TAG, "Response is: " + response);
-                            // TODO: proper error handling
-                            Toast.makeText(MainActivity.this, R.string.recovery_reported, Toast.LENGTH_LONG).show();
-                            MainActivity.this.loadStatus();
-                            // TODO: parent reload status
-                        }
-                    },
-                    new Response.ErrorListener() {
-                        @Override
-                        public void onErrorResponse(VolleyError error) {
-                            Log.w(TAG, "Error");
-                            Toast.makeText(MainActivity.this, R.string.report_s_submit_failed, Toast.LENGTH_LONG).show();
-                        }
-                    }
-            );
-            request.setBodyData(body);
-            queue.add(request);
-        } catch (JSONException e) {
-            // never should happen
-        }
+        // TODO: implement revoking previous report
     }
 }
