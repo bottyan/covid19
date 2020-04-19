@@ -27,14 +27,33 @@ import android.os.Build;
 
 import androidx.annotation.NonNull;
 import androidx.core.app.NotificationCompat;
+
+import android.telephony.PhoneStateListener;
+import android.util.JsonReader;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
 /**
  * NOTE: There can only be one service in each app that receives FCM messages. If multiple
@@ -52,18 +71,29 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     private static final String TAG = MyFirebaseMessagingService.class.getSimpleName();
     public static final String TOPIC_NAME = "com.dialogity.covid19";
 
+    private Context context = null;
+
+    public MyFirebaseMessagingService() {
+        super();
+    }
+
+    public MyFirebaseMessagingService(Context context) {
+        super();
+        this.context = context;
+    }
+
     public void subscribeToTopic() {
         //FirebaseMessaging.getInstance().subscribeToTopic(topicName).getResult();
         FirebaseMessaging.getInstance().subscribeToTopic(TOPIC_NAME)
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
-                        String msg = getString(R.string.fcm_topic_sub_success);
+                        String msg = context.getString(R.string.fcm_topic_sub_success);
                         if (!task.isSuccessful()) {
-                            msg = getString(R.string.fcm_topic_sub_failed);
+                            msg = context.getString(R.string.fcm_topic_sub_failed);
                         }
-                        Log.d(TAG, msg);
-                        Toast.makeText(MyFirebaseMessagingService.this, "", Toast.LENGTH_SHORT).show();
+                        Log.w(TAG, msg);
+                        Toast.makeText(context, msg, Toast.LENGTH_SHORT).show();
                     }
                 });
     }
@@ -94,11 +124,33 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
         // TODO(developer): Handle FCM messages here.
         // Not getting messages here? See why this may be: https://goo.gl/39bRNJ
-        Log.d(TAG, "From: " + remoteMessage.getFrom());
+        Log.i(TAG, "From: " + remoteMessage.getFrom());
 
         // Check if message contains a data payload.
         if (remoteMessage.getData().size() > 0) {
-            Log.d(TAG, "Message data payload: " + remoteMessage.getData());
+            Log.i(TAG, "Message data payload: " + remoteMessage.getData());
+            // TODO: process incoming alerts
+            try {
+                Map<String, String> map = remoteMessage.getData();
+                String tokens_str = map.get("tokens_seen");
+                Map<String, Integer> tokens_map = new HashMap<>();
+                if (tokens_str != null) {
+                    JSONObject tokens = new JSONObject(tokens_str);
+                    Iterator<String> it = tokens.keys();
+                    while (it.hasNext()) {
+                        String key = it.next();
+                        tokens_map.put(key, tokens.getInt(key));
+                    }
+                }
+                long timestamp = Long.parseLong(map.get("timestamp"));
+                DataAccess.get(getApplicationContext()).addAlert(
+                        timestamp,
+                        remoteMessage.getMessageId(),
+                        remoteMessage.getData().toString(),
+                        tokens_map);
+            } catch (Exception e) {
+                Log.e(TAG, "Error parsing message data.", e);
+            }
 
             if (/* Check if data needs to be processed by long running job */ false) {
                 // For long-running tasks (10 seconds or more) use WorkManager.
@@ -112,7 +164,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
         // Check if message contains a notification payload.
         if (remoteMessage.getNotification() != null) {
-            Log.d(TAG, "Message Notification Body: " + remoteMessage.getNotification().getBody());
+            Log.i(TAG, "Message Notification Body: " + remoteMessage.getNotification().getBody().toString());
         }
 
         // Also if you intend on generating your own notifications as a result of a received FCM
@@ -203,5 +255,60 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         }
 
         notificationManager.notify(0 /* ID of notification */, notificationBuilder.build());
+    }
+
+    public static void sendReport(final Context context, String body_text, JSONObject data, int code) {
+        RequestQueue mRequestQue = Volley.newRequestQueue(context);
+        try {
+            JSONObject json = new JSONObject();
+            json.put("to", "/topics/" + MyFirebaseMessagingService.TOPIC_NAME);
+//            JSONObject notificationObj = new JSONObject();
+//            notificationObj.put("title", "REPORT");
+//            notificationObj.put("body", body_text);
+//            //replace notification with data when went send data
+//            json.put("notification", notificationObj);
+
+            Map<String, Integer> contacts = DataAccess.get(context).getContacts();
+//            contacts.put("TEST", 1);
+//            contacts.put(DataAccess.get(context).getMyUUID(), 1);
+            data.put("tokens_seen", contacts);
+
+            DataAccess.Report report = new DataAccess.Report();
+            report.report_code = code;
+            report.report_details = data.toString();
+            String reportId = DataAccess.get(context).addReport(report);
+            data.put("reportId", reportId);
+            json.put("data", data);
+
+            String URL = "https://fcm.googleapis.com/fcm/send";
+            JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, URL,
+                    json,
+                    new Response.Listener<JSONObject>() {
+                        @Override
+                        public void onResponse(JSONObject response) {
+                            Log.e(TAG, response.toString());
+                        }
+                    }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    Log.e(TAG, error.toString());
+                }
+            }
+            ) {
+                @Override
+                public Map<String, String> getHeaders() {
+                    Map<String, String> header = new HashMap<>();
+                    header.put("content-type", "application/json");
+                    header.put("authorization", "key=" + context.getString(R.string.fcm_api_key));
+                    return header;
+                }
+            };
+
+            mRequestQue.add(request);
+
+        } catch (JSONException e) {
+            // never should happen
+        }
+
     }
 }

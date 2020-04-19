@@ -137,6 +137,16 @@ public class MainActivity extends AppCompatActivity {
                             builder.setMessage("Please grant location access so this app can detect other phones running the same app in the background. "
                                     + "This is the basis of contact tracking, without this the app can not work properly.");
                             builder.setPositiveButton(android.R.string.ok, null);
+//                                    new DialogInterface.OnClickListener() {
+//                                @Override
+//                                public void onClick(DialogInterface dialog, int which) {
+//                                    try {
+//                                        ((MyApplication) MainActivity.this.getApplication()).startBluetooth(DataAccess.get(MainActivity.this).getMyUUID());
+//                                    } catch (Exception e) {
+//                                        Log.e(TAG, "Error enabling Bluetooth.", e);
+//                                    }
+//                                }
+//                            });
                             builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
 
                                 @TargetApi(23)
@@ -151,7 +161,7 @@ public class MainActivity extends AppCompatActivity {
                         }
                         else {
                             final AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                            builder.setTitle("Functionality limited");
+                            builder.setTitle("Functionality limited (1)");
                             builder.setMessage("Since background location access has not been granted, this app will not be able to discover other users in the background.  Please go to Settings -> Applications -> Permissions and grant background location access to this app.");
                             builder.setPositiveButton(android.R.string.ok, null);
                             builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
@@ -174,7 +184,7 @@ public class MainActivity extends AppCompatActivity {
                 }
                 else {
                     final AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                    builder.setTitle("Functionality limited");
+                    builder.setTitle("Functionality limited (2)");
                     builder.setMessage("Since location access has not been granted, this app will not be able to discover other users.  Please go to Settings -> Applications -> Permissions and grant location access to this app.");
                     builder.setPositiveButton(android.R.string.ok, null);
                     builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
@@ -197,9 +207,14 @@ public class MainActivity extends AppCompatActivity {
             case PERMISSION_REQUEST_FINE_LOCATION: {
                 if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     Log.d(TAG, "fine location permission granted");
+                    try {
+                        ((MyApplication) MainActivity.this.getApplication()).startBluetooth(DataAccess.get(MainActivity.this).getMyUUID());
+                    } catch (Exception e) {
+                        Log.e(TAG, "Error enabling Bluetooth.", e);
+                    }
                 } else {
                     final AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                    builder.setTitle("Functionality limited");
+                    builder.setTitle("Functionality limited (3)");
                     builder.setMessage("Since location access has not been granted, this app will not be able to discover other users which is the basic of contact tracking.");
                     builder.setPositiveButton(android.R.string.ok, null);
                     builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
@@ -218,7 +233,7 @@ public class MainActivity extends AppCompatActivity {
                     Log.d(TAG, "background location permission granted");
                 } else {
                     final AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                    builder.setTitle("Functionality limited");
+                    builder.setTitle("Functionality limited (4)");
                     builder.setMessage("Since background location access has not been granted, this app will not be able to discover other users when in the background.");
                     builder.setPositiveButton(android.R.string.ok, null);
                     builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
@@ -295,6 +310,23 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void unreport(View view) {
-        // TODO: implement revoking previous report
+        DataAccess.Report report = DataAccess.get(this).getLastReport();
+        if (report != null) {
+            try {
+                JSONObject data = new JSONObject();
+                JSONObject data2 = new JSONObject();
+                data.put("data", data2);
+                data.put("code", DataAccess.Report.CODE_REVOKE);
+                data.put("revoked", report.id);
+                data.put("timestamp", System.currentTimeMillis());
+                data.put("type", "report");
+                MyFirebaseMessagingService.sendReport(this, "revoke_report", data, DataAccess.Report.CODE_REVOKE);
+            } catch (JSONException e) {
+                // never should happen
+            }
+        } else {
+            Log.e(TAG, "ERROR: can not revoke report, no report found in the DB.");
+        }
+        this.checkState();
     }
 }

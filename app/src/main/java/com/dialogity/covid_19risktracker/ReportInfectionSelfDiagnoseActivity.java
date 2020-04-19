@@ -5,6 +5,7 @@ import androidx.appcompat.widget.Toolbar;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
@@ -54,56 +55,25 @@ public class ReportInfectionSelfDiagnoseActivity extends AppCompatActivity {
         boolean s8 = ((CheckBox)findViewById(R.id.checkBox8)).isChecked();
         try {
             JSONObject json = new JSONObject();
-            JSONObject body = new JSONObject();
             JSONObject data = new JSONObject();
-            body.put("data", data);
-            data.put("s1", s1);
-            data.put("s2", s2);
-            data.put("s3", s3);
-            data.put("s4", s4);
-            data.put("s5", s5);
-            data.put("s6", s6);
-            data.put("s7", s7);
-            data.put("s8", s8);
+            JSONObject symptoms = new JSONObject();
+            JSONObject data2 = new JSONObject();
+            data.put("data", data2);
+            data2.put("symptoms", symptoms);
+            symptoms.put("s1", s1);
+            symptoms.put("s2", s2);
+            symptoms.put("s3", s3);
+            symptoms.put("s4", s4);
+            symptoms.put("s5", s5);
+            symptoms.put("s6", s6);
+            symptoms.put("s7", s7);
+            symptoms.put("s8", s8);
+            data.put("code", DataAccess.Report.CODE_SELF_DIAGNOSE);
+            data.put("timestamp", System.currentTimeMillis());
+            data.put("type", "report");
 
-            String[] allOtherTokens = new String[] {"token1", "token2"};
-
-            json.put("to", "/topics/" + MyFirebaseMessagingService.TOPIC_NAME);
-            JSONObject notificationObj = new JSONObject();
-            notificationObj.put("title", "REPORT");
-            notificationObj.put("body", allOtherTokens);
-            //replace notification with data when went send data
-            json.put("notification", notificationObj);
-            // TODO: check from here https://firebase.google.com/docs/cloud-messaging/android/topic-messaging?authuser=0#rest
-
-            String URL = "https://fcm.googleapis.com/fcm/send";
-            JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, URL,
-                    json,
-                    new Response.Listener<JSONObject>() {
-                        @Override
-                        public void onResponse(JSONObject response) {
-                            Log.e(TAG, response.toString());
-                        }
-                    }, new Response.ErrorListener() {
-                        @Override
-                        public void onErrorResponse(VolleyError error) {
-                            Log.e(TAG, error.toString());
-                        }
-                    }
-            ) {
-                @Override
-                public Map<String, String> getHeaders() {
-                    Map<String, String> header = new HashMap<>();
-                    header.put("content-type", "application/json");
-                    header.put("authorization", "key=" + getString(R.string.fcm_api_key));
-                    return header;
-                }
-            };
-
-            mRequestQue.add(request);
-
-            // TODO: save alert to the DB
-
+            MyFirebaseMessagingService.sendReport(this, "infected_self_diagnose", data, DataAccess.Report.CODE_SELF_DIAGNOSE);
+            this.finish();
         } catch (JSONException e) {
             // never should happen
         }

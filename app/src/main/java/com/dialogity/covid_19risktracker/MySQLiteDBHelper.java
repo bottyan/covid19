@@ -6,7 +6,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class MySQLiteDBHelper extends SQLiteOpenHelper {
 
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 3;
     public static final String DATABASE_NAME = "covid_db";
 
     public static final String OTHERS_TABLE_NAME = "others_detected";
@@ -20,7 +20,6 @@ public class MySQLiteDBHelper extends SQLiteOpenHelper {
 
     public static final String MYREPORTS_TABLE_NAME = "my_reports";
     public static final String MYREPORTS_COLUMN_ID = "id";
-    public static final String MYREPORTS_COLUMN_MY_ID = "my_id";
     public static final String MYREPORTS_COLUMN_TIMESTAMP = "timestamp";
     public static final String MYREPORTS_COLUMN_STATUS = "status";
     public static final String MYREPORTS_COLUMN_DATA = "data";
@@ -30,6 +29,7 @@ public class MySQLiteDBHelper extends SQLiteOpenHelper {
     public static final String ALERTS_COLUMN_ALERT_ID = "alert_id";
     public static final String ALERTS_COLUMN_DATA = "data";
     public static final String ALERTS_COLUMN_TIMESTAMP = "timestamp";
+    public static final String ALERTS_COLUMN_HIT_COUNT = "hit_count";
 
     public MySQLiteDBHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -51,8 +51,7 @@ public class MySQLiteDBHelper extends SQLiteOpenHelper {
                 ")");
 
         sqLiteDatabase.execSQL("CREATE TABLE " + MYREPORTS_TABLE_NAME + " (" +
-                MYREPORTS_COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                MYREPORTS_COLUMN_MY_ID + " TEXT, " +
+                MYREPORTS_COLUMN_ID + " TEXT PRIMARY KEY, " +
                 MYREPORTS_COLUMN_STATUS + " TEXT, " +
                 MYREPORTS_COLUMN_DATA + " TEXT, " +
                 MYREPORTS_COLUMN_TIMESTAMP + " BIGINT " +
@@ -62,7 +61,8 @@ public class MySQLiteDBHelper extends SQLiteOpenHelper {
                 ALERTS_COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 ALERTS_COLUMN_ALERT_ID + " TEXT, " +
                 ALERTS_COLUMN_DATA + " TEXT, " +
-                ALERTS_COLUMN_TIMESTAMP + " BIGINT " +
+                ALERTS_COLUMN_TIMESTAMP + " BIGINT, " +
+                ALERTS_COLUMN_HIT_COUNT + " INT " +
                 ")");
     }
 
@@ -71,8 +71,8 @@ public class MySQLiteDBHelper extends SQLiteOpenHelper {
         if (i == i1) {
             return;
         }
-        if (i1 == 1) {
-            if (i < 1) {
+        if (i1 <= 3) {
+            if (i < 3) {
                 sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + OTHERS_TABLE_NAME);
                 sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + MYREPORTS_TABLE_NAME);
                 sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + MYIDS_TABLE_NAME);
@@ -82,6 +82,18 @@ public class MySQLiteDBHelper extends SQLiteOpenHelper {
             }
         }
         // TODO: implement later upgrades
+    }
+
+    public String getPlaceholders(int n) {
+        StringBuilder placeholders = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i == 0) {
+                placeholders.append("?");
+            } else {
+                placeholders.append(", ?");
+            }
+        }
+        return placeholders.toString();
     }
 
 }

@@ -5,6 +5,7 @@ import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.le.AdvertiseCallback;
 import android.bluetooth.le.AdvertiseSettings;
 import android.content.Context;
@@ -40,10 +41,30 @@ public class MyApplication extends Application implements BootstrapNotifier, Ran
     public void onCreate() {
         super.onCreate();
         String uuid = DataAccess.get(this).getMyUUID();
-        startBluetooth(uuid);
+        try {
+            startBluetooth(uuid);
+        } catch (Exception e) {
+            Log.e(TAG, "Error enabling Bluetooth.", e);
+        }
+        try {
+            startListeningFCM();
+        } catch (Exception e) {
+            Log.e(TAG, "Error starting FCM listener.", e);
+        }
+    }
+
+    public void startListeningFCM() {
+        MyFirebaseMessagingService myFCM = new MyFirebaseMessagingService(this);
+        myFCM.subscribeToTopic();
     }
 
     public void startBluetooth(String uuid) {
+        BluetoothAdapter mBtAdapter = BluetoothAdapter.getDefaultAdapter();
+
+        if (! mBtAdapter.isEnabled()) {
+            Log.w(TAG, "Bluetooth not enabled, enable it.");
+            mBtAdapter.enable();
+        }
         Log.d(TAG, "App started up");
         backgroundPowerSaver = new BackgroundPowerSaver(this); // TODO: check if necessary
         BeaconManager beaconManager = BeaconManager.getInstanceForApplication(this);
@@ -93,11 +114,11 @@ public class MyApplication extends Application implements BootstrapNotifier, Ran
         // TODO: connect range notifier only after didEnterRegion ? and discontect in 10 sec ?
         // beaconManager.removeAllRangeNotifiers();
         beaconManager.addRangeNotifier(this);
-        try {
-            beaconManager.startRangingBeaconsInRegion(region);
-        } catch (RemoteException e) {
-            e.printStackTrace();
-        }
+//        try {
+//            beaconManager.startRangingBeaconsInRegion(region);
+//        } catch (RemoteException e) {
+//            e.printStackTrace();
+//        }
 
         Beacon beacon = new Beacon.Builder()
                 //.setId1("2f234454-cf6d-4a0f-adf2-f4911ba9ffa6") // TODO: set my unique ID (/what is the region?)
@@ -167,10 +188,15 @@ public class MyApplication extends Application implements BootstrapNotifier, Ran
     @Override
     public void didRangeBeaconsInRegion(Collection<Beacon> beacons, Region region) {
         for (Beacon beacon : beacons) {
-            Log.i(TAG, "The first beacon I see is about "+beacon.getDistance()+" meters away.");
+            Log.i(TAG, "The beacon I see is about "+beacon.getDistance()+" meters away.");
             //Log.i(TAG, b.toString());
-            String other_id = beacon.getId1().toString();
-            DataAccess.get(this).addTracking(other_id);
+            if (beacon.getDistance() < 4.0) {
+                String other_id = beacon.getId1().toString();
+                DataAccess.get(this).addTracking(other_id);
+                Log.i(TAG, "   It's logged.");
+            } else {
+                Log.i(TAG, "   So it's far away.");
+            }
         }
     }
 }

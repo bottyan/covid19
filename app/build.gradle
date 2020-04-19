@@ -45,4 +45,8 @@ dependencies {
     implementation 'org.altbeacon:android-beacon-library:2+'
 
     implementation 'com.google.firebase:firebase-messaging:20.1.5'
+
+    def work_version = "2.3.4"
+    implementation "androidx.work:work-runtime:$work_version"
+
 }

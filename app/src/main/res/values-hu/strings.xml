@@ -1,0 +1,163 @@
+<resources>
+    <string name="app_name">COVID-19 Fertőzés Követő</string>
+    <string name="title_activity_main2">Főoldal</string>
+
+    <string name="main_status_0">OK</string>
+    <string name="main_status_expl_0">
+        Nem tudunk olyan eseményről ami a fertőzési kockázat növekedését eredményezné, de csupán a
+        lakosság egy része használja az appot.
+        Tehát ez nem jelent védetséget, az általános védekezési lépések továbbra is javasoltak.
+    </string>
+
+    <string name="main_status_1">Közepes kockázat</string>
+    <string name="main_status_expl_1">
+        Rövidebb ideig detektáltunk fertőzött, vagy nagy valószínűséggel fertőzött egyént a közvetlen
+        környezetében. Ezért fokozott óvatosságot javaslunk, és ha lehet, egy hétig tartózkodjon a
+        társas érintkezésektől, hogy megakadályozzuk a vírus terjedését.
+        Különösen vigyázzon a veszélyeztetetteb idős korosztályra.
+    </string>
+
+    <string name="main_status_2">Magas kockázat</string>
+    <string name="main_status_expl_2">
+        Közelebbi kontaktod, akivel hosszabb ideig, vagy többször rövidebb ideig találkoztál
+        fertőzött lett. Ez nem jelenti, hogy biztosan elkaptad a betegséget, de javasoljuk, hogy
+        két hétig tartózkodj a társas érintkezésektől és amennyiben a koronavírus tüneteit érzékelnéd
+        az orvosodtól kért telefonon tanácsot. Illetve fokozottan vigyázzon a veszélyeztetetteb idős
+        korosztályra, akár észlel tüneteket akár nem.
+    </string>
+
+    <string name="main_status_3">Frtőzött</string>
+    <string name="main_status_expl_3">
+        Az alkalmazásban jelölted, hogy koronavírus fertőzést kaptál. Erről aniním módon értesíjük azokat akikkel
+        az elmúlt két hétben találkoztál. Csak akkor jelentsél fertőzést, ha ebben biztos vagy! Ha
+        mégsem vagy biztos, vagy véletlenül jelentettél fertőzést, az alábbi gomb megnyomásával
+        vond vissza.
+        Amennyiben tényleges koronavírus fertőzésről van szó, kérjük maradj otthon, kerülj mindennemű
+        társas érintkezést mindaddig amíg meg nem gyógyultál és tünetmentes vagy legalább egy hétig.
+        Ha állapotod rosszabbodna, fordulj orvoshoz telefonon.
+    </string>
+    <string name="main_status_not_infected_3">Mégsem vagyok fertőzött</string>
+
+    <string name="welcome_button_accept">Elfogadom a feltételeket és használom az alkalmazást.</string>
+    <string name="welcome_title">COVID-19 Fertőzés Követő</string>
+    <string name="welcome_subtitle">Információk és felhasználási feltételek</string>
+    <string name="welcome_explanation_html">
+        &lt;h1&gt;Mi ez az alkalmazás?&lt;/h1&gt;
+        &lt;p&gt;A COVID-19 Fertőzés Követő egy ingyenes alkalmazás ami anoním módon követi ki kivel találkozott,
+        és megbetegedés esetén értesíti a fetőzéssel érintkezett személyeket, anoním módon,
+        a fertőzőtt személyének ismertetése nélkül.
+        Gyakorlatilag egy közösségi kontak kutató alkalmazásról van szó.&lt;/p&gt;
+        &lt;br&gt;&lt;/br&gt;
+
+        &lt;h1&gt;Miben segít a kontakt kutatás?&lt;/h1&gt;
+        &lt;p&gt;Segíti a vírus terjedésének lassítását, mivel az esetleges ferőzőttek értesülnek a fertőzés
+        lehetőségéről és így fokozottan figyelhetnek arra, hogy ne betegítsenek meg másokat akkor se,
+        ha esetleg tényleg elkapták a ferzőést de tünetmentesek maradnak.&lt;/p&gt;
+        &lt;br&gt;&lt;/br&gt;
+
+        &lt;h1&gt;Mennyire pontos az alkalmazás?&lt;/h1&gt;
+        &lt;p&gt;Az alkalmazásnak több korlátja van, ezért nem feltétlenül értesít ha fertőzőttel találkoztál,
+        illetve ha jelenti, akkor pedig egyáltalán nem biztos, hogy te is megfertőződtél. A korlátok oka
+        egyrészt, hogy nem mindenki használja az alkalmazást, és csak azokról a fertőzési kockázatokról
+        értesülsz az alkalmazáson keresztül, ahol a fertőzött az alkalmazásban jelentette a fertőzés tényét.
+        Másrész az alkalmazás Bluetooth technológiát használ a kapcsolatok követésére, ami a távolság
+        mérésére csak közelítőleg képes, csak azt érzékeli, ha valakinek a telefonja, amin szintén fut ez az alkalmazás
+        közel 4 méteres körzeteden belülre kerül. Nem tudja felmérni, a kapcsolat jellegét, annak erősségére
+        az együtt töltött idő, és a találkozások gyakorisága alapján próbál következtetni.&lt;/p&gt;
+        &lt;br&gt;&lt;/br&gt;
+
+        &lt;h1&gt;Személyiségi jogok védelme&lt;/h1&gt;
+        &lt;p&gt;Mivel egészségügyi adatokról van szó, ezért a személyiségi jogok védelme különösen
+        fontos számunkra. Próbáltunk már az alkalmazás tervezésekor figyelni arra, hogy használata
+        minél kevesebb információ szivárgását tegye lehetővé. Az alkalmazás mindössze egy véletlenszerűen
+        generált azonosítót használ az azonosításodra, amit ráadásul időnként lecserél, hogy ne lehessen
+        hosszabb távon követni a mozgásodat. Ezt az azonosítót detektálják a közeledben lévő telefonok, és
+        ha valamelyik telefon tulajdonosa megbetegszik, az általa látott azonosítókat elküldi
+        az összes alkalmazásnak. Amelyik alkalmazás meglátja a saját jelenlegi vagy régebbi azonosítóját,
+        tudja, hogy találkozott egy fertőzőtt személlyel, de mivel a ferzőzött a saját azonosítóját nem külde el,
+        a fertőzőtt semélyazonossága ismeretlen marad.&lt;/p&gt;
+        &lt;br&gt;&lt;/br&gt;
+        &lt;p&gt;Semmilyen adatot nem tárolunk a szervereinken, viszont az üzenetek kézbestésére Firebase Cloud Messaging-et
+        használunk, ami az üzeneteket a kézbesítés érdekében egy ideig eltárolja a saját szervereiken, de
+        tudtunkal az üzenet érvényességének lejárta után ott is törlődnek.&lt;/p&gt;
+        &lt;br&gt;&lt;/br&gt;
+
+        &lt;h1&gt;Felhasználási feltételek&lt;/h1&gt;
+        &lt;p&gt;Az alkalmazás ingyenesen használható, de használatával elfogadod, hogy az alkalmazás
+        egy véletlenszerűen generált számsort sugároz amit más alkalmazások regisztrálhatnak.
+        Megértetted, és elfogadod, hogy az alkalmazás által szolgáltatott adatok közelítő pontosságúak.
+        Illetve elfogadod, hogy az alkalmazás fejlesztőjével szemben semilyen kártérítési követekéssel
+        nem élhetsz, beleértve de nem kizárólag az alkalmazás által adott adatok pontatlansága, illetve
+        bármilyen adatszivárgás által okozott esetleges kárt. Az alkalmazás as-it-is használod.&lt;/p&gt;
+        &lt;br&gt;&lt;/br&gt;
+    </string>
+
+    <string name="mi_delete_all">Minden adat törlése</string>
+    <string name="mi_report">Fertőzés bejelentése</string>
+
+    <string name="report_title">COVID-19 Fertőzés Követő</string>
+    <string name="report_subtitle">Fertőzés bejelentése</string>
+    <string name="report_explanation">
+        Ha bizonyítottan, vagy nagyon nagy valószínűséggel fertőzött vagy, jelentsd azt, hogy a
+        veled elmúlt két hétben kapcsolatban álló személyek megtehessék a megfelelő óvintézkedéseket.
+        Emellett kérjük tartózkodj a felépülésedig a társas érintkezésektől.
+    </string>
+    <string name="report_btn_infected_1">Teszttel bizonyított fertőzés bejelentése</string>
+    <string name="report_btn_infected_2">Fertőzés bejelentése öndiagnózis alapján</string>
+    <string name="report_btn_cancel">Mégsem</string>
+
+    <string name="main_title">COVID-19 Fertőzés Követő</string>
+    <string name="main_confirm_dialog_title">Adatok törlése</string>
+    <string name="main_confirm_dialog_text">
+        Tényleg törölni akarod az adatokat a telefonodról? Az adataid örökre elvesznek és nem lehet
+        őket visszaállítani.
+    </string>
+
+    <string name="report_s_description">
+        Amennyiben biztos vagy benne, hogy koronavírus fertőzést kaptál, de nem volt lehetőséged
+        ezt teszttel ellenőrizni, itt jelentsd az esetet.
+        Ha ezt a bejelentést megteszed az anoním módon figyelmeztetheti azokat, akikkel az elmúlt
+        két hétben találkoztál.
+        Csak akkor küldj jelentést, ha tényleg biztos vagy a fertőzésben.
+    </string>
+    <string name="report_s_symptoms">Tüneteid</string>
+    <string name="report_s_symptom1">Láz</string>
+    <string name="report_s_symptom2">Szárat köhögés</string>
+    <string name="report_s_symptom3">Fáradtság</string>
+    <string name="report_s_symptom4">Nyák termelés</string>
+    <string name="report_s_symptom5">Szaglás elvesztése</string>
+    <string name="report_s_symptom6">Légzési nehézség</string>
+    <string name="report_s_symptom7">Izületi és izom fájdalom</string>
+    <string name="report_s_symptom8">Torokfájás</string>
+    <string name="report_s_submit">Biztos, hogy fertőzött vagyok, jelentem</string>
+    <string name="report_s_title">COVID-19 Fertőzés Követő</string>
+    <string name="report_s_subtitle">Öndiagnózis</string>
+
+    <string name="report_t_title">COVID-19 Fertőzés Követő</string>
+    <string name="report_t_subtitle">Pozitív teszt bejelentése</string>
+    <string name="report_t_description">
+        A koronavírus tesztem pozitív lett, erről anoním módon értesítem a velem az elmúlt két hétben kapcsolatban
+        álló személyeket.
+        Ezt az értesítést csak akkor küld el, ha aktuálisan beteg vagy, ha már felépültél, de maga a
+        fertőzés régebben történt, már ne küldj értesítést.
+        Amennyiben viszont jelenleg is fertőzőtt vagy, küldj értesítést és tartózkodj a társas érintkezésektől, hogy
+        ne add tovább a fertőzést.
+        Az értesítés anoním, nem tárolunk rólad semmilyen információt.
+    </string>
+    <string name="report_t_submit">Biztos, hogy fertőzött vagyok, jelentem</string>
+
+    <string name="report_s_reported">Fertőzés bejelentve.</string>
+    <string name="report_s_submit_failed">Hiba történt, kérkül próbáld meg később.</string>
+    <string name="main_status_failed">Státusz betöltése nem sikerült.</string>
+    <string name="recovery_reported">Felépültem</string>
+    <string name="noti_contact_tracing_on">Kontakt követés bekapcsolva</string>
+
+    <string name="default_notification_channel_id">COVID-19_notification_channel</string>
+    <string name="default_notification_channel_name">COVID-19 Notifications</string>
+    <string name="default_notification_channel_description">Notifications from the COVID-19 contact tracing app.</string>
+    <string name="default_notification_title">COVID-19 tracing alert</string>
+
+    <string name="fcm_topic_sub_success">Feliratkozva a COVID-19 értesítésekre.</string>
+    <string name="fcm_topic_sub_failed">A feliratkozás a COVID-19 értesítésekre nem sikerült, később újra megpróbáljuk.</string>
+    <string name="fcm_api_key">AAAAGS7ITts:APA91bG-_YhDlo5pY-FiBS3U38S_QdLqofaJ5QrlfSkVy6kYOMU1Po-pg-iphYmYpx7o0M6iftQb1IatrzV-hotoV_mruI6mEsu7sVZCzoUUoIOL-Wxvye0Pjo4GltyVJlEKUiJa2AKP</string>
+</resources>

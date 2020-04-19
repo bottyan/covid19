@@ -89,7 +89,8 @@
     <string name="report_s_description">
         When you are pretty sure that you have COVID-19 disease, but there is no chance to be tested,
         you can report it here. Please be aware that your report might triggers warning for others you met
-        in the last two weeks.
+        in the last two weeks. The alert is anonymous, your identity will be kept private, not even sent to
+        any servers.
     </string>
     <string name="report_s_symptoms">Your symptoms</string>
     <string name="report_s_symptom1">Fever</string>
@@ -103,6 +104,16 @@
     <string name="report_s_submit">I\'m sure I\'m infected, submit</string>
     <string name="report_s_title">COVID 19 Safety Tracker</string>
     <string name="report_s_subtitle">Self diagnose</string>
+
+    <string name="report_t_title">COVID 19 Safety Tracker</string>
+    <string name="report_t_subtitle">Report positive test</string>
+    <string name="report_t_description">
+        Your COVID-19 test was positive please report it. Do not report if you are already recovered
+        and your are symptomless already for 2 weeks or longer. If you send report your contacts in
+        the last two weeks will receive an anonymous alert. Your identity will be kept private, not
+        even sent to any servers.
+    </string>
+    <string name="report_t_submit">I\'m sure I\'m infected, submit</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
@@ -119,5 +130,5 @@
 
     <string name="fcm_topic_sub_success">Subscribed to COVID-19 alerts.</string>
     <string name="fcm_topic_sub_failed">Subscription to COVID-19 alerts failed, we will try again later.</string>
-    <string name="fcm_api_key">AIzaSyArBG3-Z7P0VDRsCe2miXoJjnICUB0OQ9M</string>
+    <string name="fcm_api_key">AAAAGS7ITts:APA91bG-_YhDlo5pY-FiBS3U38S_QdLqofaJ5QrlfSkVy6kYOMU1Po-pg-iphYmYpx7o0M6iftQb1IatrzV-hotoV_mruI6mEsu7sVZCzoUUoIOL-Wxvye0Pjo4GltyVJlEKUiJa2AKP</string>
 </resources>

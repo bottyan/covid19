@@ -55,8 +55,8 @@ public class WelcomeActivity extends AppCompatActivity {
         }
 
         uuid = DataAccess.get(this).getMyUUID();
-        TextView textViewUUID = (TextView) findViewById(R.id.textViewUUID);
-        textViewUUID.setText(uuid);
+        //TextView textViewUUID = (TextView) findViewById(R.id.textViewUUID);
+        //textViewUUID.setText(uuid);
 
     }
 
