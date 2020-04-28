@@ -7,6 +7,10 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.work.Constraints;
+import androidx.work.ExistingPeriodicWorkPolicy;
+import androidx.work.PeriodicWorkRequest;
+import androidx.work.WorkManager;
 
 import android.Manifest;
 import android.annotation.TargetApi;
@@ -32,6 +36,8 @@ import com.android.volley.toolbox.Volley;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.concurrent.TimeUnit;
+
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = AppCompatActivity.class.getSimpleName();
     private static final int PERMISSION_REQUEST_FINE_LOCATION = 1;
@@ -56,6 +62,8 @@ public class MainActivity extends AppCompatActivity {
 
         checkAndRequestPermissions();
         checkState();
+
+        scheduleBluetoothRestart();
 
         // TODO: bluetooth tracking
         // TODO: status page for self reported infection w/ report recovery
@@ -208,7 +216,8 @@ public class MainActivity extends AppCompatActivity {
                 if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     Log.d(TAG, "fine location permission granted");
                     try {
-                        ((MyApplication) MainActivity.this.getApplication()).startBluetooth(DataAccess.get(MainActivity.this).getMyUUID());
+                        MyBeaconHandler beaconHandler = new MyBeaconHandler();
+                        beaconHandler.startBleutooth();
                     } catch (Exception e) {
                         Log.e(TAG, "Error enabling Bluetooth.", e);
                     }
@@ -328,5 +337,21 @@ public class MainActivity extends AppCompatActivity {
             Log.e(TAG, "ERROR: can not revoke report, no report found in the DB.");
         }
         this.checkState();
+    }
+
+    private void scheduleBluetoothRestart() {
+        Log.i(MainActivity.class.getName(), "Create schedule...");
+        Constraints constraints = new Constraints.Builder()
+                .setRequiresCharging(false)
+                .build();
+
+        PeriodicWorkRequest tracking =
+                new PeriodicWorkRequest.Builder(RefreshWorker.class, 15, TimeUnit.MINUTES)
+                        .setConstraints(constraints)
+                        .build();
+
+        WorkManager wm = WorkManager.getInstance(this.getApplicationContext());
+
+        wm.enqueueUniquePeriodicWork("refresh_token", ExistingPeriodicWorkPolicy.KEEP, tracking);
     }
 }

@@ -1,19 +1,19 @@
 <resources>
-    <string name="app_name">COVID-19 Fertőzés Követő</string>
+    <string name="app_name">Koronavírus Nyomkövető</string>
     <string name="title_activity_main2">Főoldal</string>
 
     <string name="main_status_0">OK</string>
     <string name="main_status_expl_0">
         Nem tudunk olyan eseményről ami a fertőzési kockázat növekedését eredményezné, de csupán a
-        lakosság egy része használja az appot.
-        Tehát ez nem jelent védetséget, az általános védekezési lépések továbbra is javasoltak.
+        lakosság egy része használja az appot, tehát ez nem jelent védettséget, az általános
+        védekezési lépések továbbra is javasoltak.
     </string>
 
     <string name="main_status_1">Közepes kockázat</string>
     <string name="main_status_expl_1">
         Rövidebb ideig detektáltunk fertőzött, vagy nagy valószínűséggel fertőzött egyént a közvetlen
-        környezetében. Ezért fokozott óvatosságot javaslunk, és ha lehet, egy hétig tartózkodjon a
-        társas érintkezésektől, hogy megakadályozzuk a vírus terjedését.
+        környezetében. Ezért fokozott óvatosságot javaslunk, és ha lehet, egy hétig tartózkodj a
+        társas érintkezésektől, hogy megakadályozd a vírus továbbterjedését.
         Különösen vigyázzon a veszélyeztetetteb idős korosztályra.
     </string>
 
@@ -22,28 +22,28 @@
         Közelebbi kontaktod, akivel hosszabb ideig, vagy többször rövidebb ideig találkoztál
         fertőzött lett. Ez nem jelenti, hogy biztosan elkaptad a betegséget, de javasoljuk, hogy
         két hétig tartózkodj a társas érintkezésektől és amennyiben a koronavírus tüneteit érzékelnéd
-        az orvosodtól kért telefonon tanácsot. Illetve fokozottan vigyázzon a veszélyeztetetteb idős
+        az orvosodtól kérj telefonon tanácsot. Illetve fokozottan vigyázzon a veszélyeztetetteb idős
         korosztályra, akár észlel tüneteket akár nem.
     </string>
 
-    <string name="main_status_3">Frtőzött</string>
+    <string name="main_status_3">Fertőzött</string>
     <string name="main_status_expl_3">
         Az alkalmazásban jelölted, hogy koronavírus fertőzést kaptál. Erről aniním módon értesíjük azokat akikkel
-        az elmúlt két hétben találkoztál. Csak akkor jelentsél fertőzést, ha ebben biztos vagy! Ha
-        mégsem vagy biztos, vagy véletlenül jelentettél fertőzést, az alábbi gomb megnyomásával
-        vond vissza.
-        Amennyiben tényleges koronavírus fertőzésről van szó, kérjük maradj otthon, kerülj mindennemű
-        társas érintkezést mindaddig amíg meg nem gyógyultál és tünetmentes vagy legalább egy hétig.
+        az elmúlt két hétben találkoztál.
+        Kérjük maradj otthon, kerülj mindennemű társas érintkezést mindaddig amíg meg nem gyógyultál
+        és tünetmentes vagy legalább egy hétig.
         Ha állapotod rosszabbodna, fordulj orvoshoz telefonon.
+        Ha véletlenül jelentettél fertőzést, az alábbi gomb megnyomásával
+        vond vissza.
     </string>
     <string name="main_status_not_infected_3">Mégsem vagyok fertőzött</string>
 
     <string name="welcome_button_accept">Elfogadom a feltételeket és használom az alkalmazást.</string>
-    <string name="welcome_title">COVID-19 Fertőzés Követő</string>
+    <string name="welcome_title">Koronavírus Nyomkövető</string>
     <string name="welcome_subtitle">Információk és felhasználási feltételek</string>
     <string name="welcome_explanation_html">
         &lt;h1&gt;Mi ez az alkalmazás?&lt;/h1&gt;
-        &lt;p&gt;A COVID-19 Fertőzés Követő egy ingyenes alkalmazás ami anoním módon követi ki kivel találkozott,
+        &lt;p&gt;A Koronavírus Nyomkövető egy ingyenes alkalmazás ami anoním módon követi ki kivel találkozott,
         és megbetegedés esetén értesíti a fetőzéssel érintkezett személyeket, anoním módon,
         a fertőzőtt személyének ismertetése nélkül.
         Gyakorlatilag egy közösségi kontak kutató alkalmazásról van szó.&lt;/p&gt;
@@ -95,7 +95,7 @@
     <string name="mi_delete_all">Minden adat törlése</string>
     <string name="mi_report">Fertőzés bejelentése</string>
 
-    <string name="report_title">COVID-19 Fertőzés Követő</string>
+    <string name="report_title">Koronavírus Nyomkövető</string>
     <string name="report_subtitle">Fertőzés bejelentése</string>
     <string name="report_explanation">
         Ha bizonyítottan, vagy nagyon nagy valószínűséggel fertőzött vagy, jelentsd azt, hogy a
@@ -106,7 +106,7 @@
     <string name="report_btn_infected_2">Fertőzés bejelentése öndiagnózis alapján</string>
     <string name="report_btn_cancel">Mégsem</string>
 
-    <string name="main_title">COVID-19 Fertőzés Követő</string>
+    <string name="main_title">Koronavírus Nyomkövető</string>
     <string name="main_confirm_dialog_title">Adatok törlése</string>
     <string name="main_confirm_dialog_text">
         Tényleg törölni akarod az adatokat a telefonodról? Az adataid örökre elvesznek és nem lehet
@@ -130,10 +130,10 @@
     <string name="report_s_symptom7">Izületi és izom fájdalom</string>
     <string name="report_s_symptom8">Torokfájás</string>
     <string name="report_s_submit">Biztos, hogy fertőzött vagyok, jelentem</string>
-    <string name="report_s_title">COVID-19 Fertőzés Követő</string>
+    <string name="report_s_title">Koronavírus Nyomkövető</string>
     <string name="report_s_subtitle">Öndiagnózis</string>
 
-    <string name="report_t_title">COVID-19 Fertőzés Követő</string>
+    <string name="report_t_title">Koronavírus Nyomkövető</string>
     <string name="report_t_subtitle">Pozitív teszt bejelentése</string>
     <string name="report_t_description">
         A koronavírus tesztem pozitív lett, erről anoním módon értesítem a velem az elmúlt két hétben kapcsolatban

@@ -44,7 +44,7 @@
                 android:layout_height="match_parent"
                 android:autoText="false"
                 android:text="@string/main_status_1"
-                app:autoSizeMaxTextSize="300sp"
+                app:autoSizeMaxTextSize="70sp"
                 app:autoSizeMinTextSize="30sp"
                 app:autoSizeTextType="uniform" />
         </LinearLayout>

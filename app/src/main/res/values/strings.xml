@@ -63,11 +63,61 @@
 
     <string name="welcome_explanation_html">
         &lt;h1&gt;What is this app?&lt;/h1&gt;
-        &lt;p&gt;Explanation here&lt;/p&gt;
-        &lt;h1&gt;Privacy concerns&lt;/h1&gt;
-        &lt;p&gt;Explanation here&lt;/p&gt;
-        &lt;h1&gt;How accurate is the prediction and how to interpret it?&lt;/h1&gt;
-        &lt;p&gt;Explanation here&lt;/p&gt;
+        &lt;p&gt;
+        COVID-19 Safety Tracker is a free contact tracing application to record your contacts
+        anonimously, and in case of infection you can notify them without sharing your identity.
+        &lt;/p&gt;
+        &lt;br&gt;&lt;/br&gt;
+
+        &lt;h1&gt;How can contact tracing help?&lt;/h1&gt;
+        &lt;p&gt;
+        It helps to slow down the spread of the virus by notifying the potentially infected persons
+        about the risk so they can pay special attention not to infect others even if they are
+        symptomless.
+        &lt;/p&gt;
+        &lt;br&gt;&lt;/br&gt;
+
+        &lt;h1&gt;How accurate it is?&lt;/h1&gt;
+        &lt;p&gt;
+        The application has a few limitations so it\'s not 100% sure that you\'ll be notified if you
+        met an infected person, and it\'s not sure that you are infected if you get high risk notifications.
+        One limitation is that not everybody is using this app, and you will be notified only about infections
+        reported through this app.
+        Other limitation is based on the Bluetooth technology used by the application for contact tracing.
+        Bluetooth is able to measure approximate distance between phones and determines the transmission
+        probability only from the length and frequency of the contacts, no other factors can be taken
+        into account.
+        &lt;/p&gt;
+        &lt;br&gt;&lt;/br&gt;
+
+        &lt;h1&gt;Privacy policy&lt;/h1&gt;
+        &lt;p&gt;
+        The application handles health records so protecting your privacy is important for us.
+        This was an important design objective for the software. It identifies you only with a
+        random number which is changed frequently so it\'s really hard to track anyones location
+        over a longer time period. This identifier is recorded by nearby devices. If the owner of
+        a contacted device reports infection over the app, the identifiers recorded by his phone
+        in the previous two weeks will be shared with the app users, this way if one of your
+        identifier is on this list, you will be notified.
+
+        &lt;/p&gt;
+        &lt;br&gt;&lt;/br&gt;
+        &lt;p&gt;
+        Information is stored only on your phone and the random IDs of your contacts in the last two weeks
+        are shared through Firebase Cloud Messaging (FCM) with other app users in case you submit infection.
+        FCM might store these information for the duration needed for transmitting the messages.&lt;/p&gt;
+        &lt;br&gt;&lt;/br&gt;
+
+        &lt;h1&gt;Terms&lt;/h1&gt;
+        &lt;p&gt;
+        The application is free to use. By using the application you accept that a random identifier
+        is transmitted over Bluetooth which can be detected by other devices, to safeguard your
+        privacy this random identifier is regenerated in about every 15 minutes.
+        You also accept that you user the software as it is. And there is no warranty regarding any
+        possible damage caused by the software in any direct or indirect way.
+
+        &lt;/p&gt;
+        &lt;br&gt;&lt;/br&gt;
     </string>
     <string name="main_title">COVID19 Safety Tracker</string>
     <string name="title_activity_login">Sign in</string>
